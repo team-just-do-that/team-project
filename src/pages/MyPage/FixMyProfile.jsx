@@ -120,7 +120,7 @@ function FixMyProfile() {
           <StProfilePicBox>
             <img
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              src={profileImage ? previewUrl : user.image_url}
+              src={previewUrl ? previewUrl : profileImage}
               alt=""
             />
           </StProfilePicBox>
