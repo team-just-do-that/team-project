@@ -40,6 +40,7 @@ const MyPage = () => {
     queryFn: getUser,
     gcTime: 0
   });
+  console.log(user);
 
   const { data: posts } = useQuery({
     queryKey: ['posts'],
@@ -63,6 +64,7 @@ const MyPage = () => {
           <Button type="button" buttonText="프로필 수정" onClick={onClickProfile} color="#2D2D2D"></Button>
         </StButton>
       </StProfile>
+      <br />
       <StCardsCotainer>
         <StCards>
           {posts && posts.length ? (
@@ -93,7 +95,6 @@ const MyPage = () => {
           )}
         </StCards>
       </StCardsCotainer>
-      {/* StCardsCotainerd 섹션 자체를 솔님께서 수정하신 버전으로 업데이트 해야 함 일단 넣어두기만 함 */}
     </StSection>
   );
 };
