@@ -2,8 +2,7 @@ import { getHomePosts, getPosts } from '@/api/api.posts';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import img from '@/assets/mainitem.png';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+
 import {
   StCard,
   StCardImg,
@@ -18,7 +17,6 @@ import {
   StNoCard,
   StPlace,
   StPostItem,
-  StNoCard,
   StMoreButton,
   StButtonBox,
   StSlideSection,
