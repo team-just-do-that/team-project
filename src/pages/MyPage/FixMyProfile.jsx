@@ -28,7 +28,6 @@ function FixMyProfile() {
     gcTime: 0
   });
 
-  console.log(user.image_url.split('public/')[1]);
   const navigate = useNavigate();
 
   const [profileImage, setProfileImage] = useState('');
