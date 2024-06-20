@@ -1,11 +1,26 @@
+import { getUser } from '@/api/api.auth';
 import { addImage, addPost } from '@/api/api.posts';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 function WritingForm() {
+  const {
+    data: user,
+    isPending,
+    isError
+  } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUser
+  });
+
+  const {
+    state: { info: mapInfo }
+  } = useLocation();
+
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
@@ -31,12 +46,16 @@ function WritingForm() {
   const addPostHandler = () => {
     addMutation.mutate({
       id: uuidv4(),
-      address: 'create test address',
+      address: mapInfo.address_name,
       title,
       content,
       image_url: imageUrl,
       is_recruit: false,
-      user_id: uuidv4()
+      user_id: user.id,
+      coordinate: {
+        lat: mapInfo.y,
+        lng: mapInfo.x
+      }
     });
   };
   return (
@@ -50,6 +69,7 @@ function WritingForm() {
       />
       <StLabel htmlFor="image">이미지 첨부하기</StLabel>
       <StInput type="file" id="image" onChange={handleImageUpload} />
+      <StImg src={imageUrl} />
       <StTextArea
         value={content}
         onChange={(e) => {
@@ -58,15 +78,37 @@ function WritingForm() {
         placeholder="내용을 작성해 주세요 ..."
       />
 
-      <StMapApi>지도api</StMapApi>
-
+      <Map
+        center={{
+          lat: mapInfo.y,
+          lng: mapInfo.x
+        }}
+        style={{
+          width: '100%',
+          height: '500px'
+        }}
+        level={2}
+        draggable={false}
+        zoomable={false}
+      >
+        <MapMarker
+          position={{
+            lat: mapInfo.y,
+            lng: mapInfo.x
+          }}
+        />
+      </Map>
       <StLine />
       <StButtonContainer>
-        <StBackButton>
+        <StBackButton
+          onClick={() => {
+            navigate('/select-place');
+          }}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15 18L9 12L15 6" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          나가기
+          장소 선택하기
         </StBackButton>
         <StAddButton onClick={addPostHandler}>등록하기</StAddButton>
       </StButtonContainer>
@@ -90,6 +132,10 @@ const StTitleInput = styled.input`
   border: none;
   outline: none;
   box-sizing: border-box;
+`;
+
+const StImg = styled.img`
+  width: 100%;
 `;
 
 const StTextArea = styled.textarea`
@@ -135,10 +181,6 @@ const StLabel = styled.label`
 const StInput = styled.input`
   display: none;
   width: 100%;
-`;
-
-const StMapApi = styled.div`
-  height: 244px;
 `;
 
 const StLine = styled.div`

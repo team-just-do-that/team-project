@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
 
 import {
+  StContainer,
+  StMapTitle,
   StButtons,
   StDiv,
   StDummyImage,
@@ -12,14 +14,19 @@ import {
   StListItem,
   StPlaceInfo,
   StSearchBar,
-  StUl
+  StUl,
+  StInfoTitle,
+  StInfoContent,
+  StMapAddButton,
+  StBackButton
 } from './SelectPlace.styled';
+import { useNavigate } from 'react-router-dom';
 
 const PlaceListItem = ({ marker, setInfo, isSelectd }) => {
-  console.log(marker);
+  // console.log(marker);
   return (
     <StListItem $isSelected={isSelectd}>
-      <StDummyImage></StDummyImage>
+      {/* <StDummyImage></StDummyImage> */}
       <StPlaceInfo>
         <h3>{marker.place_name}</h3>
         <p>{marker.category_group_name}</p>
@@ -52,6 +59,7 @@ const PlaceInfoCard = ({ marker }) => {
 };
 
 export const SelectPlace = () => {
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [info, setInfo] = useState();
   const [markers, setMarkers] = useState([]);
@@ -59,8 +67,8 @@ export const SelectPlace = () => {
   const [keyword, setKeyword] = useState('보드게임');
   const [inputText, setInputText] = useState('');
   const [places, setPlaces] = useState([]);
-  console.log(places);
-  console.log(markers);
+  // console.log(places);
+  // console.log(markers);
 
   const handleClickButton = () => {
     setKeyword(inputText);
@@ -74,10 +82,11 @@ export const SelectPlace = () => {
     setLoading(true);
     if (!map) return;
     const ps = new kakao.maps.services.Places();
+    // console.log(ps);
 
     ps.keywordSearch(keyword, (data, status, _pagination) => {
       setPlaces(data);
-      console.log(data, status, _pagination);
+      // console.log(data, status, _pagination);
       if (status === kakao.maps.services.Status.OK) {
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
@@ -96,7 +105,7 @@ export const SelectPlace = () => {
           });
           // @ts-ignore
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-          console.log(data[i].y, data[i].x);
+          // console.log(data[i].y, data[i].x);
         }
         setMarkers(markers);
 
@@ -107,14 +116,20 @@ export const SelectPlace = () => {
     setLoading(false);
   }, [map, keyword]);
 
+  const mapAddHandler = () => {
+    console.log(info);
+    navigate('/writingpage', { state: { info } });
+  };
+
   if (isLoading) return <div>loading...</div>;
 
   return (
-    <>
+    <StContainer>
+      <StMapTitle>함께 보드게임할 장소를 검색하고, 선택하세요!</StMapTitle>
       <StDiv>
         <StLeftSide>
           <StSearchBar>
-            <input value={inputText} onChange={inputChange} type="text" />
+            <input placeholder="원하는 장소를 검색하세요!" value={inputText} onChange={inputChange} type="text" />
             <button onClick={handleClickButton}>검색</button>
           </StSearchBar>
           <StUl>
@@ -127,12 +142,13 @@ export const SelectPlace = () => {
         </StLeftSide>
         <Map // 로드뷰를 표시할 Container
           center={{
-            lat: 37.566826,
-            lng: 126.9786567
+            lat: 126.93713158887188,
+            lng: 37.5561776340198
           }}
           style={{
             width: '100%',
-            height: '700px'
+            height: '600px',
+            borderRadius: '10px'
           }}
           level={3}
           onCreate={setMap}
@@ -143,7 +159,7 @@ export const SelectPlace = () => {
               position={marker.position}
               onClick={() => {
                 setInfo(marker);
-                console.log(marker);
+                // console.log(marker);
               }}
             ></MapMarker>
           ))}
@@ -156,12 +172,24 @@ export const SelectPlace = () => {
       </StDiv>
       {info && (
         <StInfoPreview>
-          <span>"Info" state 정보</span>
+          <StInfoTitle>선택한 주소 정보</StInfoTitle>
           <hr />
-          <div>장소 : {info.content}</div>
-          <div>ID : {info.id}</div>
+          <StInfoContent>장소 : {info.content}</StInfoContent>
+          <StInfoContent>주소 : {info.address_name}</StInfoContent>
+          {/* <div>ID : {info.id}</div> */}
+          <StMapAddButton onClick={mapAddHandler}>장소 등록하기!</StMapAddButton>
         </StInfoPreview>
       )}
-    </>
+      <StBackButton
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        나가기
+      </StBackButton>
+    </StContainer>
   );
 };

@@ -1,21 +1,64 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom/dist';
+import { signOutWithSupabase } from '@/api/api.auth';
+import imgsrc from '@/assets/main-logo.svg';
+import supabase from '@/supabase/supabaseClient';
+import { useEffect, useState } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom/dist';
 import styled from 'styled-components';
 
 function Layout() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  const checkLoginStatus = async () => {
+    const response = await supabase.auth.getUser();
+    const user = response.data.user;
+    setIsLoggedIn(!!user);
+  };
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
+  const handleLogout = async () => {
+    if (confirm('정말 로그아웃하시겠습니까?')) {
+      try {
+        await signOutWithSupabase();
+        setIsLoggedIn(false);
+        navigate('/');
+      } catch (error) {
+        console.error('Error logging out:', error.message);
+      }
+    }
+  };
+
   return (
     <StBackground>
       <StHeader>
-        <StLogo src={imgsrc} />
+        <Link to="/">
+          <StLogo src={imgsrc} />
+        </Link>
+
         <StNoneBodyBtn>둘러보기</StNoneBodyBtn>
-        <StNoneBodyBtn>모임만들기</StNoneBodyBtn>
-        <StNoneBodyBtn>마이페이지</StNoneBodyBtn>
+
+        <Link to="/my-page">
+          <StNoneBodyBtn>마이페이지</StNoneBodyBtn>
+        </Link>
+
         <StSignDiv>
           <>
-            <StSignBtn>로그아웃</StSignBtn>
+            <Link to="/select-place">
+              <StNoneBodyBtn color="#F2B564">글 작성</StNoneBodyBtn>
+            </Link>
           </>
+
           <>
-            <StSignBtn>로그인</StSignBtn>
+            {isLoggedIn ? (
+              <StSignBtn onClick={handleLogout}>로그아웃</StSignBtn>
+            ) : (
+              <Link to="/log-in">
+                <StSignBtn>로그인</StSignBtn>
+              </Link>
+            )}
           </>
         </StSignDiv>
       </StHeader>
@@ -52,9 +95,6 @@ const StLogo = styled.img`
 
 // 반응형 생각했을 땐 로고 너비 20vw 하고 높이를 너비에 따라 고정되게 하면 좋을텐데 방법 찾아본 후 수정
 
-const imgsrc =
-  'https://media.discordapp.net/attachments/868151962623967276/1252433645688459294/boradmate.png?ex=6672333a&is=6670e1ba&hm=3f9290842f3d0008c8835a875662770a36d302c9b412d920b479a4df638c6c30&=&format=webp&quality=lossless';
-
 // 나중에 링크 말고 파일 위치로 수정할 예정
 
 const StNoneBodyBtn = styled.button`
@@ -62,11 +102,12 @@ const StNoneBodyBtn = styled.button`
   width: 6rem;
   height: 2.2rem;
   border-radius: 0.5rem;
-  color: #fcfdff;
+  color: ${(props) => props.color || '#fcfdff'};
   background-color: transparent;
   border: none;
   font-size: 16px;
   font-weight: 700;
+  cursor: pointer;
 `;
 
 const StSignDiv = styled.div`
@@ -82,6 +123,7 @@ const StSignBtn = styled.button`
   color: #2d2d2d;
   font-size: 16px;
   font-weight: 700;
+  cursor: pointer;
 `;
 
 export default Layout;

@@ -42,7 +42,7 @@ export const StSubSection = styled.div`
 `;
 
 export const StButtonDiv = styled.div`
-  display: flex;
+  display: ${(props) => (props.$postEditAuthority ? 'flex' : 'none')};
   gap: 20px;
   & button {
     width: 5.3rem;
@@ -52,6 +52,7 @@ export const StButtonDiv = styled.div`
     color: #fcfdff;
     font-size: 12px;
     font-weight: 700;
+    cursor: pointer;
   }
 `;
 
