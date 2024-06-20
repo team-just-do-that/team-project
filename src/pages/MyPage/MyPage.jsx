@@ -6,6 +6,7 @@ import Button from './Button';
 import {
   StButton,
   StCard,
+  StCardFooter,
   StCardImg,
   StCards,
   StCardsCotainer,
@@ -20,7 +21,10 @@ import {
   StProfileName,
   StProfilePic,
   StSection,
-  StTitle
+  StTitle,
+  StUserInfo,
+  StUserProfileImage,
+  StUsername
 } from './MyPage.styled';
 
 const MyPage = () => {
@@ -82,7 +86,14 @@ const MyPage = () => {
                         <StContentNoImg>{post.content}</StContentNoImg>
                       )}
 
-                      <StPostItem>모집중</StPostItem>
+                      <StCardFooter>
+                        <StUserInfo>
+                          <StUserProfileImage src={post.users.image_url} />
+                          <StUsername>{post.users.nickname}</StUsername>
+                        </StUserInfo>
+
+                        <StPostItem>{post.is_recruit ? '모집 완료' : '모집중'}</StPostItem>
+                      </StCardFooter>
                     </StCard>
                   </Link>
                 );
