@@ -89,7 +89,11 @@ const MyPage = () => {
                 );
               })
           ) : (
-            <StNoCard>작성된 게시물이 없습니다.</StNoCard>
+            <>
+              <StNoCard></StNoCard>
+              <StNoCard>작성된 게시물이 없습니다</StNoCard>
+              <StNoCard></StNoCard>
+            </>
           )}
         </StCards>
       </StCardsCotainer>
