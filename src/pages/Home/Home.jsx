@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import {
   StButtonBox,
   StCard,
+  StCardFooter,
   StCardImg,
   StCards,
   StCardsAlignBtn,
@@ -19,7 +20,10 @@ import {
   StPlace,
   StPostItem,
   StSlideSection,
-  StTitle
+  StTitle,
+  StUserInfo,
+  StUserProfileImage,
+  StUsername
 } from './Home.styled';
 
 const ITEMS_PER_PAGE = 3;
@@ -33,7 +37,7 @@ export const Home = () => {
     isPending,
     error
   } = useInfiniteQuery({
-    queryKey: ['posts'],
+    queryKey: ['infinitePosts'],
     initialPageParam: 1,
     queryFn: async ({ pageParam }) => {
       const response = await getHomePosts(pageParam, ITEMS_PER_PAGE);
@@ -43,6 +47,10 @@ export const Home = () => {
       };
     },
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      console.log(lastPage, allPages, lastPageParam);
+      if (lastPage.length === 0) {
+        return undefined;
+      }
       const nextPage = lastPageParam + 1;
       return nextPage <= lastPage.totalPages ? nextPage : undefined;
     },
@@ -78,7 +86,14 @@ export const Home = () => {
                           <StContentNoImg>{post.content}</StContentNoImg>
                         )}
 
-                        <StPostItem>{post.is_recruit ? '모집 완료' : '모집중'}</StPostItem>
+                        <StCardFooter>
+                          <StUserInfo>
+                            <StUserProfileImage src={post.users.image_url} />
+                            <StUsername>{post.users.nickname}</StUsername>
+                          </StUserInfo>
+
+                          <StPostItem>{post.is_recruit ? '모집 완료' : '모집중'}</StPostItem>
+                        </StCardFooter>
                       </StCard>
                     </Link>
                   );
