@@ -13,6 +13,7 @@ import {
   StContentNoImg,
   StDiv,
   StHomeSection,
+  StNoCard,
   StPlace,
   StPostItem,
   StSlideSection,
