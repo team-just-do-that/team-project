@@ -1,30 +1,62 @@
+import { getUser, updateProfileWithSupabase } from '@/api/api.auth';
+import supabase from '@/supabase/supabaseClient';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import Button from './Button';
 import {
   StButtons,
+  StFixProfile,
   StFixSection,
   StLabelGame,
   StLabelNick,
+  StProfileBox,
   StProfilePicBox,
-  StProfilePics,
-  StFixProfile,
-  StProfileBox
+  StProfilePics
 } from './FixMyProfile.styled';
-import Button from './Button';
-import supabase from '@/supabase/supabaseClient';
-import { useQuery } from '@tanstack/react-query';
-import { getUser } from '@/api/api.auth';
 
 function FixMyProfile() {
+  const queryClient = useQueryClient();
+  const {
+    data: user,
+    isPending,
+    isError
+  } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+    gcTime: 0
+  });
+
+  console.log(user.image_url.split('public/')[1]);
   const navigate = useNavigate();
 
   const [profileImage, setProfileImage] = useState('');
   const [profileName, setProfileName] = useState('');
   const [userId, setUserId] = useState('');
   const [profileFavorite, setProfileFavorite] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
+
+  // const onFileChange = (e) => {
+  //   const file = imgRef.current.files[0];
+  //   setImageFile(file);
+
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend = () => {
+  //     setImageUrl(reader.result);
+  //   };
+  // };
 
   const handleImageChange = (e) => {
-    setProfileImage(e.target.files[0]);
+    const file = e.target.files[0];
+    if (!file) return;
+    setProfileImage(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result);
+    };
   };
 
   const handleNameChange = (e) => {
@@ -38,10 +70,9 @@ function FixMyProfile() {
   // 닉네임, 프로필사진 변경
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const avatar = 'profile_image';
-    const FILE_NAME = 'profileImage';
-    const fileUrl = `${FILE_NAME}_${user.id}`;
+    const imageId = uuidv4();
+    const FILE_NAME = 'profile_image';
+    const fileUrl = `${FILE_NAME}_${imageId}`;
 
     const updatingObj = {};
 
@@ -51,44 +82,32 @@ function FixMyProfile() {
 
     if (profileName !== user.nickname) {
       updatingObj.nickname = profileName;
-      setProfileName(profileName);
     }
 
-    if (profileFavorite !== user.intro) {
-      updatingObj.intro = profileFavorite;
-      setProfileFavorite(profileFavorite);
+    if (profileFavorite !== user.favorite) {
+      updatingObj.favorite = profileFavorite;
     }
 
-    if (profileImage !== user.profile) {
-      updatingObj.profile = profileImage;
-      setProfileImage(profileImage);
-      const response = await supabase.storage.from('avatars').upload(fileUrl, profileImage);
-      const publicUrl = supabase.storage.from('avatars').getPublicUrl(fileUrl);
-      console.log(response);
-      console.log(publicUrl);
+    if (profileImage !== user.image_url) {
+      const existFileName = user.image_url.split('avatars/')[1];
+      console.log(existFileName);
+      const { data, error } = await supabase.storage.from('avatars').remove([existFileName]);
+      console.log(data, error);
+
+      const response = await supabase.storage.from('avatars').upload(fileUrl, profileImage, { upsert: true });
+      const publicUrl = supabase.storage.from('avatars').getPublicUrl(fileUrl); //superbase에서 받아온 이미지url
+
+      updatingObj.image_url = publicUrl.data.publicUrl;
     }
 
-    alert('프로필이 성공적으로 변경되었습니다.');
+    const response = await updateProfileWithSupabase(updatingObj, user.id);
 
-    navigate('/my-page');
+    queryClient.invalidateQueries(['user']);
   };
 
   const handleBackClick = () => {
     navigate('/my-page');
   };
-
-  const {
-    data: user,
-    isPending,
-    isError
-  } = useQuery({
-    queryKey: ['user'],
-    queryFn: getUser
-  });
-
-  if (isPending) return <div>Loading...</div>;
-
-  console.log(user);
 
   useEffect(() => {
     if (user) {
@@ -99,6 +118,8 @@ function FixMyProfile() {
     }
   }, [user]);
 
+  if (isPending) return <div>Loading...</div>;
+
   return (
     <StFixSection>
       <StFixProfile>
@@ -106,8 +127,8 @@ function FixMyProfile() {
           <StProfilePicBox>
             <img
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              src={profileImage ? publicUrl : ''}
-              alt="profile image"
+              src={profileImage ? previewUrl : user.image_url}
+              alt=""
             />
           </StProfilePicBox>
           <Button
