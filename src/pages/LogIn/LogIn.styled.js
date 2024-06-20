@@ -60,4 +60,4 @@ export const StSignUpButton = styled.button`
   }
 `;
 
-export { StDiv, StTitle, StForm, StButton };
+export { StButton, StDiv, StForm, StTitle };
