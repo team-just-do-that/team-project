@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-export const StyledSection = styled.section`
+const StSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-export const StyledProfile = styled.div`
+const StProfile = styled.div`
   width: 920px;
   height: 240px;
   padding: 16px;
@@ -18,7 +18,7 @@ export const StyledProfile = styled.div`
   display: flex;
 `;
 
-export const StyledProfilePic = styled.img`
+const StProfilePic = styled.img`
   height: 170px;
   width: 170px;
   margin: auto 0 auto 80px;
@@ -26,13 +26,13 @@ export const StyledProfilePic = styled.img`
   background-color: #f0f0f0;
 `;
 
-export const StyledProfileBox = styled.div`
+const StProfileBox = styled.div`
   display: flex;
   flex-direction: column;
   margin: auto 0 auto 30px;
 `;
 
-export const StyledProfileName = styled.p`
+const StProfileName = styled.p`
   font-size: 24px;
   font-weight: 900;
   margin-bottom: 45px;
@@ -41,14 +41,14 @@ export const StyledProfileName = styled.p`
   white-space: normal;
 `;
 
-export const StyledProfileIntro = styled.span`
+const StProfileIntro = styled.span`
   font-size: 20px;
   font-weight: 900;
   display: flex;
   align-items: center;
 `;
 
-export const StyledProfileGame = styled.span`
+const StProfileGame = styled.span`
   padding: 0.5rem 1rem 0.5rem 1rem;
   border-radius: 0.5rem;
   margin-left: 5px;
@@ -62,27 +62,61 @@ export const StyledProfileGame = styled.span`
   white-space: normal;
 `;
 
-export const StButton = styled.div`
+const StButton = styled.div`
   margin: 0 0 auto auto;
+  cursor: pointer;
 `;
 
-export const StCardsCotainer = styled.div`
-  width: 1240px;
-  margin-top: 80px;
+const StHomeSection = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
-export const StCards = styled.div`
+const StSlideSection = styled.section`
+  height: 700px;
+  background-color: #f4b061;
+  display: flex;
+  justify-content: center;
+`;
+
+const StCardsSection = styled.section`
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+`;
+
+const StCardsCotainer = styled.div`
+  min-width: 1000px;
+  margin-bottom: 10px;
+  /* background-color: gray; */
+`;
+
+const StCardsAlignBtn = styled.button`
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 10rem;
+  height: 2.2rem;
+  border-radius: 0.5rem;
+  background-color: #fcfdff;
+  color: #2d2d2d;
+  font-weight: 700;
+`;
+
+const StCards = styled.ul`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 380px));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 320px));
   grid-auto-rows: minmax(323px, 0);
   justify-content: space-between;
   row-gap: 60px;
 `;
 
-export const StCard = styled.div`
+const StCard = styled.li`
   background-color: #fcfdff;
-  width: 380px;
+  width: 320px;
   height: 323px;
   border-radius: 1rem;
   display: flex;
@@ -92,24 +126,56 @@ export const StCard = styled.div`
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   padding: 1rem;
   box-sizing: border-box;
+  color: #000;
 `;
 
-export const StCardImg = styled.div`
+const StCardImg = styled.img`
   background-color: black;
-  width: 340px;
-  height: 200px;
+  width: 100%;
+  height: 160px;
   border-radius: 0.5rem;
+  object-fit: cover;
 `;
 
-export const StTitle = styled.p`
-  font-size: 2rem;
+const StTitle = styled.p`
+  font-size: 18px;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; // 원하는 라인수
+  -webkit-box-orient: vertical;
 `;
 
-export const StPlace = styled.p`
-  font-size: 1.5rem;
+const StPlace = styled.p`
+  font-size: 14px;
+  font-weight: 900;
 `;
 
-export const StPostItem = styled.div`
+const StContent = styled.p`
+  line-height: 1.5;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; // 원하는 라인수
+  -webkit-box-orient: vertical;
+`;
+
+const StContentNoImg = styled.p`
+  line-height: 1.5;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; // 원하는 라인수
+  -webkit-box-orient: vertical;
+`;
+
+const StPostItem = styled.div`
   background-color: #2d2d2d;
   color: #fcfdff;
   display: flex;
@@ -120,3 +186,27 @@ export const StPostItem = styled.div`
   height: 1.7rem;
   border-radius: 0.5rem;
 `;
+
+export {
+  StPostItem,
+  StContentNoImg,
+  StContent,
+  StPlace,
+  StTitle,
+  StCardImg,
+  StCard,
+  StCards,
+  StCardsAlignBtn,
+  StCardsCotainer,
+  StCardsSection,
+  StSlideSection,
+  StHomeSection,
+  StButton,
+  StProfileGame,
+  StProfileIntro,
+  StProfileName,
+  StProfileBox,
+  StProfilePic,
+  StProfile,
+  StSection
+};
