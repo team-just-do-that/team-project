@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getUser } from '@/api/api.auth';
+import { getPosts } from '@/api/api.posts';
+import { useQuery } from '@tanstack/react-query';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from './Button';
 import {
   StButton,
   StCard,
   StCardImg,
   StCards,
   StCardsCotainer,
+  StContent,
+  StContentNoImg,
   StPlace,
   StPostItem,
-  StTitle,
   StProfile,
   StProfileBox,
   StProfileGame,
@@ -16,13 +20,8 @@ import {
   StProfileName,
   StProfilePic,
   StSection,
-  StContent,
-  StContentNoImg
+  StTitle
 } from './MyPage.styled';
-import Button from './Button';
-import { useQuery } from '@tanstack/react-query';
-import { getUser } from '@/api/api.auth';
-import { getPosts } from '@/api/api.posts';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -48,6 +47,8 @@ const MyPage = () => {
   });
 
   if (isPending) return <div>Loading...</div>;
+
+  console.log(user.image_url);
 
   return (
     <StSection>

@@ -1,20 +1,20 @@
+import { getUser, updateProfileWithSupabase } from '@/api/api.auth';
+import supabase from '@/supabase/supabaseClient';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import Button from './Button';
 import {
   StButtons,
+  StFixProfile,
   StFixSection,
   StLabelGame,
   StLabelNick,
+  StProfileBox,
   StProfilePicBox,
-  StProfilePics,
-  StFixProfile,
-  StProfileBox
+  StProfilePics
 } from './FixMyProfile.styled';
-import Button from './Button';
-import supabase from '@/supabase/supabaseClient';
-import { useQuery } from '@tanstack/react-query';
-import { getUser, updateProfileWithSupabase } from '@/api/api.auth';
-import { useQueryClient } from '@tanstack/react-query';
 
 function FixMyProfile() {
   const queryClient = useQueryClient();
@@ -24,10 +24,11 @@ function FixMyProfile() {
     isError
   } = useQuery({
     queryKey: ['user'],
-    queryFn: getUser
+    queryFn: getUser,
+    gcTime: 0
   });
 
-  console.log(user);
+  console.log(user.image_url.split('public/')[1]);
   const navigate = useNavigate();
 
   const [profileImage, setProfileImage] = useState('');
@@ -49,6 +50,7 @@ function FixMyProfile() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
     setProfileImage(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -68,10 +70,9 @@ function FixMyProfile() {
   // 닉네임, 프로필사진 변경
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const avatar = 'profile_image';
-    const FILE_NAME = 'profileImage';
-    const fileUrl = `${FILE_NAME}_${user.id}`;
+    const imageId = uuidv4();
+    const FILE_NAME = 'profile_image';
+    const fileUrl = `${FILE_NAME}_${imageId}`;
 
     const updatingObj = {};
 
@@ -88,6 +89,11 @@ function FixMyProfile() {
     }
 
     if (profileImage !== user.image_url) {
+      const existFileName = user.image_url.split('avatars/')[1];
+      console.log(existFileName);
+      const { data, error } = await supabase.storage.from('avatars').remove([existFileName]);
+      console.log(data, error);
+
       const response = await supabase.storage.from('avatars').upload(fileUrl, profileImage, { upsert: true });
       const publicUrl = supabase.storage.from('avatars').getPublicUrl(fileUrl);
 
