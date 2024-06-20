@@ -37,7 +37,6 @@ const ReadPost = ({ setIsEdit, userInfo }) => {
     queryKey: ['post'],
     queryFn: () => getPost(postId)
   });
-  console.log(targetData);
 
   //게시글 삭제
   const deletePostMutation = useMutation({
