@@ -30,6 +30,7 @@ export const Home = () => {
     queryFn: getPosts
   });
 
+  console.log(posts);
   return (
     <StDiv>
       <StHomeSection>
@@ -54,7 +55,7 @@ export const Home = () => {
                           <StContentNoImg>{post.content}</StContentNoImg>
                         )}
 
-                        <StPostItem>모집중</StPostItem>
+                        <StPostItem>{post.is_recruit ? '모집 완료' : '모집중'}</StPostItem>
                       </StCard>
                     </Link>
                   );

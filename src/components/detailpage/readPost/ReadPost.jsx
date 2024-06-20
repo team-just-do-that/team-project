@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Comments from '../coments/Comments';
 import {
   StButtonDiv,
+  StContainer,
   StContentSection,
   StHr,
   StPostImage,
@@ -12,17 +13,24 @@ import {
 } from './readPost.styled';
 
 import { deletePost } from '@/api/api.posts';
-import { StContainer } from '@/pages/detail/detail.styled';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const ReadPost = ({ setIsEdit, targetData, userInfo }) => {
+  if (!targetData) {
+    return <div>Loading...</div>;
+  }
+
   const navigate = useNavigate();
   const { id: postId } = useParams();
   const queryClient = useQueryClient();
   const { title, address, image_url, is_recruit, content, user_id, coordinate } = targetData;
   const [commentIsEdit, setCommentIsEdit] = useState(false);
+
+  localStorage.setItem('address', targetData.address);
+  localStorage.setItem('x', targetData.coordinate?.lng);
+  localStorage.setItem('y', targetData.coordinate?.lat);
 
   const deletePostMutation = useMutation({
     mutationFn: deletePost,
@@ -41,7 +49,7 @@ const ReadPost = ({ setIsEdit, targetData, userInfo }) => {
   return (
     <>
       <StContainer>
-        <StRecruitButton>{is_recruit ? '모집완료' : '모집중'}</StRecruitButton>
+        <StRecruitButton $is_recruit={is_recruit}>{is_recruit ? '모집완료' : '모집중'}</StRecruitButton>
         <StTitleSection>
           <StTitleH1>{title}</StTitleH1>
         </StTitleSection>
@@ -55,6 +63,8 @@ const ReadPost = ({ setIsEdit, targetData, userInfo }) => {
         <StContentSection>
           {image_url && <StPostImage src={image_url} alt="image" />}
           <p>{content}</p>
+
+          {/* 지도 */}
           {coordinate && (
             <Map // 로드뷰를 표시할 Container
               center={{
