@@ -197,6 +197,7 @@ const StNoCard = styled.div`
 const StMyPost = styled.div`
   font-size: 18px;
   font-weight: 900;
+  margin: 50px;
 `;
 export {
   StPostItem,
