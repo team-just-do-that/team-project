@@ -1,7 +1,11 @@
 import supabase from '@/supabase/supabaseClient';
 
-export async function getPosts(pageParam, ITEMS_PER_PAGE) {
-  console.log((pageParam - 1) * ITEMS_PER_PAGE, pageParam * ITEMS_PER_PAGE - 1);
+export async function getPosts() {
+  const { data: posts, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
+  return posts;
+}
+
+export async function getHomePosts(pageParam, ITEMS_PER_PAGE) {
   const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
@@ -23,7 +27,10 @@ export async function deletePost(postId) {
 }
 
 export async function updatePost(updatePost) {
-  await supabase.from('posts').update(updatePost).eq('id', updatePost.id);
+  const { error } = await supabase.from('posts').update(updatePost).eq('id', updatePost.id);
+  if (error) {
+    console.log(error);
+  }
 }
 
 export async function addImage(fileObj) {
