@@ -34,7 +34,7 @@ const ReadPost = ({ setIsEdit, targetData, userInfo }) => {
     if (confirm('정말 삭제하시겠습니까?')) {
       deletePostMutation.mutate(postId);
       navigate('/');
-      alert('삭제되었습니다');
+      alert('삭제가 완료되었습니다.');
     }
   };
 
@@ -54,7 +54,6 @@ const ReadPost = ({ setIsEdit, targetData, userInfo }) => {
         </StSubSection>
         <StContentSection>
           {image_url && <StPostImage src={image_url} alt="image" />}
-
           <p>{content}</p>
           {coordinate && (
             <Map // 로드뷰를 표시할 Container
