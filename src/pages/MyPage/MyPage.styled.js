@@ -3,6 +3,8 @@ import styled from 'styled-components';
 const StSection = styled.section`
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
   align-items: center;
 `;
 
@@ -89,6 +91,7 @@ const StCardsSection = styled.section`
 `;
 
 const StCardsCotainer = styled.div`
+  display: flex;
   min-width: 1000px;
   margin-bottom: 10px;
   /* background-color: gray; */
@@ -187,26 +190,56 @@ const StPostItem = styled.div`
   border-radius: 0.5rem;
 `;
 
+const StNoCard = styled.div`
+  text-align: center;
+`;
+
+const StMyPost = styled.div`
+  font-size: 18px;
+  font-weight: 900;
+  margin: 50px;
+`;
 export {
-  StPostItem,
-  StContentNoImg,
-  StContent,
-  StPlace,
-  StTitle,
-  StCardImg,
+  StButton,
   StCard,
+  StCardImg,
   StCards,
   StCardsAlignBtn,
   StCardsCotainer,
   StCardsSection,
-  StSlideSection,
+  StContent,
+  StContentNoImg,
   StHomeSection,
-  StButton,
+  StMyPost,
+  StNoCard,
+  StPlace,
+  StPostItem,
+  StProfile,
+  StProfileBox,
   StProfileGame,
   StProfileIntro,
   StProfileName,
-  StProfileBox,
   StProfilePic,
-  StProfile,
-  StSection
+  StSection,
+  StTitle
 };
+
+export const StCardFooter = styled.div`
+  display: flex;
+  align-items: flex-end;
+  flex: 1 1 0;
+`;
+
+export const StUserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const StUserProfileImage = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+`;
+
+export const StUsername = styled.p``;

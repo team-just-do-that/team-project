@@ -1,9 +1,11 @@
 import { getHomePosts } from '@/api/api.posts';
-import { Link } from 'react-router-dom';
 import img from '@/assets/mainitem.png';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import {
+  StButtonBox,
   StCard,
+  StCardFooter,
   StCardImg,
   StCards,
   StCardsAlignBtn,
@@ -13,13 +15,15 @@ import {
   StContentNoImg,
   StDiv,
   StHomeSection,
+  StMoreButton,
   StNoCard,
   StPlace,
   StPostItem,
-  StMoreButton,
-  StButtonBox,
   StSlideSection,
-  StTitle
+  StTitle,
+  StUserInfo,
+  StUserProfileImage,
+  StUsername
 } from './Home.styled';
 
 const ITEMS_PER_PAGE = 3;
@@ -43,6 +47,10 @@ export const Home = () => {
       };
     },
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      console.log(lastPage, allPages, lastPageParam);
+      if (lastPage.length === 0) {
+        return undefined;
+      }
       const nextPage = lastPageParam + 1;
       return nextPage <= lastPage.totalPages ? nextPage : undefined;
     },
@@ -78,7 +86,14 @@ export const Home = () => {
                           <StContentNoImg>{post.content}</StContentNoImg>
                         )}
 
-                        <StPostItem>{post.is_recruit ? '모집 완료' : '모집중'}</StPostItem>
+                        <StCardFooter>
+                          <StUserInfo>
+                            <StUserProfileImage src={post.users.image_url} />
+                            <StUsername>{post.users.nickname}</StUsername>
+                          </StUserInfo>
+
+                          <StPostItem>{post.is_recruit ? '모집 완료' : '모집중'}</StPostItem>
+                        </StCardFooter>
                       </StCard>
                     </Link>
                   );
