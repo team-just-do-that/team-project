@@ -38,8 +38,6 @@ function Layout() {
           <StLogo src={imgsrc} />
         </Link>
 
-        <StNoneBodyBtn>둘러보기</StNoneBodyBtn>
-
         <Link to="/my-page">
           <StNoneBodyBtn>마이페이지</StNoneBodyBtn>
         </Link>

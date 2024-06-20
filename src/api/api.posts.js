@@ -21,6 +21,15 @@ export async function getHomePosts(pageParam, ITEMS_PER_PAGE) {
   return { posts, postsLength };
 }
 
+export async function getPost(postId) {
+  const { data: post, error } = await supabase
+    .from('posts')
+    .select(`*, users(image_url, nickname)`)
+    .eq('id', postId)
+    .single();
+  return post;
+}
+
 export async function addPost(newPost) {
   console.log(newPost);
   await supabase.from('posts').insert(newPost).select();
