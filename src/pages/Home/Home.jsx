@@ -16,7 +16,8 @@ import {
   StPlace,
   StContent,
   StContentNoImg,
-  StPostItem
+  StPostItem,
+  StNoCard
 } from './Home.styled';
 
 export const Home = () => {
