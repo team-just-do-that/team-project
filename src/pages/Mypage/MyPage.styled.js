@@ -3,6 +3,8 @@ import styled from 'styled-components';
 const StSection = styled.section`
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
   align-items: center;
 `;
 
@@ -89,6 +91,7 @@ const StCardsSection = styled.section`
 `;
 
 const StCardsCotainer = styled.div`
+  display: flex;
   min-width: 1000px;
   margin-bottom: 10px;
   /* background-color: gray; */
@@ -187,6 +190,15 @@ const StPostItem = styled.div`
   border-radius: 0.5rem;
 `;
 
+const StNoCard = styled.div`
+  text-align: center;
+`;
+
+const StMyPost = styled.div`
+  font-size: 18px;
+  font-weight: 900;
+  margin: 50px;
+`;
 export {
   StButton,
   StCard,
@@ -198,6 +210,8 @@ export {
   StContent,
   StContentNoImg,
   StHomeSection,
+  StMyPost,
+  StNoCard,
   StPlace,
   StPostItem,
   StProfile,
@@ -207,7 +221,6 @@ export {
   StProfileName,
   StProfilePic,
   StSection,
-  StSlideSection,
   StTitle
 };
 
