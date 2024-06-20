@@ -1,8 +1,9 @@
 import { getHomePosts } from '@/api/api.posts';
-import { Link } from 'react-router-dom';
 import img from '@/assets/mainitem.png';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import {
+  StButtonBox,
   StCard,
   StCardImg,
   StCards,
@@ -13,11 +14,10 @@ import {
   StContentNoImg,
   StDiv,
   StHomeSection,
+  StMoreButton,
   StNoCard,
   StPlace,
   StPostItem,
-  StMoreButton,
-  StButtonBox,
   StSlideSection,
   StTitle
 } from './Home.styled';

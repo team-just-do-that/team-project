@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { deletePost, getPost } from '@/api/api.posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useNavigate, useParams } from 'react-router-dom';
 import Comments from '../coments/Comments';
@@ -9,9 +10,11 @@ import {
   StButtonDiv,
   StContainer,
   StContentSection,
+  StDateP,
   StHr,
   StImaDiv,
   StPostImage,
+  StPostInfo,
   StRecruitButton,
   StSubSection,
   StTitleH1,
@@ -63,11 +66,13 @@ const ReadPost = ({ setIsEdit, userInfo }) => {
     return <div>No data</div>;
   }
 
-  const { title, address, image_url, is_recruit, content, user_id, coordinate, created_at, writer } = targetData;
+  const { title, address, image_url, is_recruit, content, user_id, coordinate, created_at } = targetData;
 
   localStorage.setItem('address', targetData.address);
   localStorage.setItem('x', targetData.coordinate?.lng);
   localStorage.setItem('y', targetData.coordinate?.lat);
+
+  const date = dayjs(created_at).format('YYYY-MM-DD HH:mm');
 
   return (
     <>
@@ -75,10 +80,15 @@ const ReadPost = ({ setIsEdit, userInfo }) => {
         <StRecruitButton $is_recruit={is_recruit}>{is_recruit ? '모집완료' : '모집중'}</StRecruitButton>
         <StTitleSection>
           <StTitleH1>{title}</StTitleH1>
-          <p>{created_at}</p>
+
+          <StPostInfo>
+            <p>{targetData.users.nickname}</p>
+            <StDateP>{date}</StDateP>
+          </StPostInfo>
+
+          <p>{address}</p>
         </StTitleSection>
         <StSubSection>
-          <p>{address}</p>
           <StButtonDiv $postEditAuthority={user_id === userInfo?.id}>
             <button onClick={() => setIsEdit(true)}>수정</button>
             <button onClick={() => deletePostHandler(postId)}>삭제</button>
