@@ -83,16 +83,16 @@ const MyPage = () => {
                         <StContentNoImg>{post.content}</StContentNoImg>
                       )}
 
-                      <StPostItem>모집중</StPostItem>
+                      <StPostItem>{post.is_recruit ? '모집 완료' : '모집중'}</StPostItem>
                     </StCard>
                   </Link>
                 );
               })
           ) : (
             <>
-              <StNoCard></StNoCard>
+              <div></div>
               <StNoCard>작성된 게시물이 없습니다</StNoCard>
-              <StNoCard></StNoCard>
+              <div></div>
             </>
           )}
         </StCards>
