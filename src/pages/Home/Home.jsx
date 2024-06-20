@@ -2,26 +2,28 @@ import { getHomePosts, getPosts } from '@/api/api.posts';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import img from '@/assets/mainitem.png';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import {
-  StDiv,
-  StHomeSection,
-  StSlideSection,
-  StCardsSection,
-  StCardsCotainer,
-  StCardsAlignBtn,
-  StCards,
   StCard,
   StCardImg,
-  StTitle,
-  StPlace,
+  StCards,
+  StCardsAlignBtn,
+  StCardsCotainer,
+  StCardsSection,
   StContent,
   StContentNoImg,
+  StDiv,
+  StHomeSection,
+  StNoCard,
+  StPlace,
   StPostItem,
   StNoCard,
   StMoreButton,
-  StButtonBox
+  StButtonBox,
+  StSlideSection,
+  StTitle
 } from './Home.styled';
-import supabase from '@/supabase/supabaseClient';
 
 const ITEMS_PER_PAGE = 3;
 
@@ -66,6 +68,7 @@ export const Home = () => {
   console.log(posts);
 
   if (isPending) return <div>Loading...</div>;
+
   return (
     <StDiv>
       <StHomeSection>
@@ -90,7 +93,7 @@ export const Home = () => {
                           <StContentNoImg>{post.content}</StContentNoImg>
                         )}
 
-                        <StPostItem>모집중</StPostItem>
+                        <StPostItem>{post.is_recruit ? '모집 완료' : '모집중'}</StPostItem>
                       </StCard>
                     </Link>
                   );
