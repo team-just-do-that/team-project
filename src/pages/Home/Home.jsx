@@ -1,8 +1,9 @@
 import { getHomePosts } from '@/api/api.posts';
-import { Link } from 'react-router-dom';
 import img from '@/assets/mainitem.png';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import {
+  StButtonBox,
   StCard,
   StCardImg,
   StCards,
@@ -13,11 +14,10 @@ import {
   StContentNoImg,
   StDiv,
   StHomeSection,
+  StMoreButton,
   StNoCard,
   StPlace,
   StPostItem,
-  StMoreButton,
-  StButtonBox,
   StSlideSection,
   StTitle
 } from './Home.styled';
@@ -33,7 +33,7 @@ export const Home = () => {
     isPending,
     error
   } = useInfiniteQuery({
-    queryKey: ['posts'],
+    queryKey: ['infinitePosts'],
     initialPageParam: 1,
     queryFn: async ({ pageParam }) => {
       const response = await getHomePosts(pageParam, ITEMS_PER_PAGE);
@@ -43,6 +43,10 @@ export const Home = () => {
       };
     },
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      console.log(lastPage, allPages, lastPageParam);
+      if (lastPage.length === 0) {
+        return undefined;
+      }
       const nextPage = lastPageParam + 1;
       return nextPage <= lastPage.totalPages ? nextPage : undefined;
     },
