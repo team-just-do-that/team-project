@@ -1,10 +1,16 @@
 import { useState } from 'react';
+
+import { deletePost, getPost } from '@/api/api.posts';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { useNavigate, useParams } from 'react-router-dom';
 import Comments from '../coments/Comments';
 import {
   StButtonDiv,
   StContainer,
   StContentSection,
   StHr,
+  StImaDiv,
   StPostImage,
   StRecruitButton,
   StSubSection,
@@ -12,26 +18,25 @@ import {
   StTitleSection
 } from './readPost.styled';
 
-import { deletePost } from '@/api/api.posts';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import { useNavigate, useParams } from 'react-router-dom';
-
-const ReadPost = ({ setIsEdit, targetData, userInfo }) => {
-  if (!targetData) {
-    return <div>Loading...</div>;
-  }
-
+const ReadPost = ({ setIsEdit, userInfo }) => {
   const navigate = useNavigate();
   const { id: postId } = useParams();
   const queryClient = useQueryClient();
-  const { title, address, image_url, is_recruit, content, user_id, coordinate } = targetData;
   const [commentIsEdit, setCommentIsEdit] = useState(false);
 
-  localStorage.setItem('address', targetData.address);
-  localStorage.setItem('x', targetData.coordinate?.lng);
-  localStorage.setItem('y', targetData.coordinate?.lat);
+  //포스트 정보 가져오기
 
+  const {
+    data: targetData,
+    isPending,
+    isError
+  } = useQuery({
+    queryKey: ['post'],
+    queryFn: () => getPost(postId)
+  });
+  console.log(targetData);
+
+  //게시글 삭제
   const deletePostMutation = useMutation({
     mutationFn: deletePost,
     onSuccess: () => {
@@ -46,12 +51,31 @@ const ReadPost = ({ setIsEdit, targetData, userInfo }) => {
     }
   };
 
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error...</div>;
+  }
+
+  if (!targetData) {
+    return <div>No data</div>;
+  }
+
+  const { title, address, image_url, is_recruit, content, user_id, coordinate, created_at, writer } = targetData;
+
+  localStorage.setItem('address', targetData.address);
+  localStorage.setItem('x', targetData.coordinate?.lng);
+  localStorage.setItem('y', targetData.coordinate?.lat);
+
   return (
     <>
       <StContainer>
         <StRecruitButton $is_recruit={is_recruit}>{is_recruit ? '모집완료' : '모집중'}</StRecruitButton>
         <StTitleSection>
           <StTitleH1>{title}</StTitleH1>
+          <p>{created_at}</p>
         </StTitleSection>
         <StSubSection>
           <p>{address}</p>
@@ -60,8 +84,10 @@ const ReadPost = ({ setIsEdit, targetData, userInfo }) => {
             <button onClick={() => deletePostHandler(postId)}>삭제</button>
           </StButtonDiv>
         </StSubSection>
+        <StHr />
         <StContentSection>
-          {image_url && <StPostImage src={image_url} alt="image" />}
+          <StImaDiv>{image_url && <StPostImage src={image_url} alt="image" />}</StImaDiv>
+
           <p>{content}</p>
 
           {/* 지도 */}
