@@ -28,7 +28,6 @@ const ReadPost = ({ setIsEdit, userInfo }) => {
   const [commentIsEdit, setCommentIsEdit] = useState(false);
 
   //포스트 정보 가져오기
-
   const {
     data: targetData,
     isPending,
@@ -71,7 +70,7 @@ const ReadPost = ({ setIsEdit, userInfo }) => {
   localStorage.setItem('x', targetData.coordinate?.lng);
   localStorage.setItem('y', targetData.coordinate?.lat);
 
-  const date = dayjs(created_at).format('YYYY-MM-DD HH:mm');
+  const date = dayjs(created_at).locale('ko').format('YYYY-MM-DD HH:mm');
 
   return (
     <>
@@ -81,7 +80,7 @@ const ReadPost = ({ setIsEdit, userInfo }) => {
           <StTitleH1>{title}</StTitleH1>
 
           <StPostInfo>
-            <p>{targetData.users.nickname}</p>
+            {/* <p>{targetData.users.nickname}</p> */}
             <StDateP>{date}</StDateP>
           </StPostInfo>
 
