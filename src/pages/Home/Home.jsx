@@ -38,9 +38,9 @@ export const Home = () => {
         <StCardsSection>
           <StCardsCotainer>
             <StCardsAlignBtn>▼ 최신순</StCardsAlignBtn>
-            <StCards>
-              {posts && posts.length ? (
-                posts.map((post) => {
+            {posts && posts.length ? (
+              <StCards>
+                {posts.map((post) => {
                   return (
                     <Link style={{ textDecoration: 'none' }} key={post.id} to={`/detail/${post.id}`}>
                       <StCard>
@@ -57,11 +57,12 @@ export const Home = () => {
                       </StCard>
                     </Link>
                   );
-                })
-              ) : (
-                <div>안녕</div>
-              )}
-            </StCards>
+                })}
+              </StCards>
+            ) : (
+              <StNoCard>작성된 게시물이 없습니다.</StNoCard>
+            )}
+            ;
           </StCardsCotainer>
         </StCardsSection>
       </StHomeSection>
