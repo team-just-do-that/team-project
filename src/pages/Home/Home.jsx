@@ -16,7 +16,8 @@ import {
   StPlace,
   StContent,
   StContentNoImg,
-  StPostItem
+  StPostItem,
+  StNoCard
 } from './Home.styled';
 
 export const Home = () => {
@@ -60,7 +61,7 @@ export const Home = () => {
                 })}
               </StCards>
             ) : (
-              <StCard>작성된 게시물이 없습니다.</StCard>
+              <StNoCard>작성된 게시물이 없습니다.</StNoCard>
             )}
             ;
           </StCardsCotainer>
