@@ -60,7 +60,7 @@ export const Home = () => {
                 })}
               </StCards>
             ) : (
-              <StNoCard>작성된 게시물이 없습니다.</StNoCard>
+              <StCard>작성된 게시물이 없습니다.</StCard>
             )}
             ;
           </StCardsCotainer>
