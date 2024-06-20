@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom/dist';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom/dist';
 import { getSessionWithSupabase } from '@/api/api.auth';
+import React, { useEffect, useState } from 'react';
+import { Link, Outlet } from 'react-router-dom/dist';
+import styled from 'styled-components';
 
 import { signOutWithSupabase } from '@/api/api.auth';
-import { useSelector } from 'react-redux';
+import supabase from '@/supabase/supabaseClient';
 
 function Layout() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -59,7 +58,7 @@ function Layout() {
 
         <StSignDiv>
           <>
-            <Link to="/writingpage">
+            <Link to="/select-place">
               <StNoneBodyBtn color="#F2B564">글 작성</StNoneBodyBtn>
             </Link>
           </>
