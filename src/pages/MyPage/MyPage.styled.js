@@ -194,6 +194,10 @@ const StNoCard = styled.div`
   text-align: center;
 `;
 
+const StMyPost = styled.div`
+  font-size: 18px;
+  font-weight: 900;
+`;
 export {
   StPostItem,
   StContentNoImg,
@@ -216,5 +220,6 @@ export {
   StProfilePic,
   StProfile,
   StSection,
-  StNoCard
+  StNoCard,
+  StMyPost
 };

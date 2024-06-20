@@ -11,6 +11,7 @@ import {
   StCardsCotainer,
   StContent,
   StContentNoImg,
+  StMyPost,
   StNoCard,
   StPlace,
   StPostItem,
@@ -62,6 +63,8 @@ const MyPage = () => {
           <Button type="button" buttonText="프로필 수정" onClick={onClickProfile} color="#2D2D2D"></Button>
         </StButton>
       </StProfile>
+      <br />
+      <StMyPost>내가 작성한 게시물</StMyPost>
       <br />
       <StCardsCotainer>
         <StCards>
