@@ -3,10 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom/dist';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom/dist';
 import { signOutWithSupabase } from '@/api/api.auth';
-<<<<<<< HEAD
-import { useSelector } from 'react-redux';
-=======
->>>>>>> 385fb9f04a2468009bb6aa87f74e0af7838cbd11
+
 import supabase from '@/supabase/supabaseClient';
 
 function Layout() {
@@ -14,15 +11,9 @@ function Layout() {
   const navigate = useNavigate();
 
   const checkLoginStatus = async () => {
-<<<<<<< HEAD
-    const user = supabase.auth.getUser();
-    console.log(user);
-    setIsLoggedIn(true);
-=======
     const response = await supabase.auth.getUser();
     const user = response.data.user;
     setIsLoggedIn(!!user);
->>>>>>> 385fb9f04a2468009bb6aa87f74e0af7838cbd11
   };
 
   useEffect(() => {
