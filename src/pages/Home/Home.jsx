@@ -1,6 +1,6 @@
 import { getPosts } from '@/api/api.posts';
 import img from '@/assets/mainitem.png';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import {
   StCard,
@@ -20,17 +20,50 @@ import {
   StTitle
 } from './Home.styled';
 
+const ITEMS_PER_PAGE = 3;
+
 export const Home = () => {
+  // const {
+  //   data: posts,
+  //   isPending,
+  //   isError
+  // } = useQuery({
+  //   queryKey: ['posts'],
+  //   queryFn: getPosts
+  // });
+
   const {
     data: posts,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isPending,
-    isError
-  } = useQuery({
+    error
+  } = useInfiniteQuery({
     queryKey: ['posts'],
-    queryFn: getPosts
+    initialPageParam: 1,
+    // 되는거
+    // queryFn: ({ pageParam }) => getPosts(pageParam, ITEMS_PER_PAGE),
+    queryFn: async ({ pageParam }) => {
+      const response = await getPosts(pageParam, ITEMS_PER_PAGE);
+      return {
+        posts: response.posts,
+        totalPages: Math.ceil(response.postsLength / ITEMS_PER_PAGE)
+      };
+    },
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      const nextPage = lastPageParam + 1;
+      return nextPage <= lastPage.totalPages ? nextPage : undefined;
+    },
+    select: ({ pages }) => {
+      return pages.map((postsPerPage) => postsPerPage.posts).flat();
+    }
   });
 
   console.log(posts);
+
+  if (isPending) return <div>Loading...</div>;
+
   return (
     <StDiv>
       <StHomeSection>
@@ -64,7 +97,11 @@ export const Home = () => {
             ) : (
               <StNoCard>작성된 게시물이 없습니다.</StNoCard>
             )}
-            ;
+            {hasNextPage && (
+              <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                더 불러오기
+              </button>
+            )}
           </StCardsCotainer>
         </StCardsSection>
       </StHomeSection>
