@@ -1,7 +1,7 @@
-import { getPosts } from '@/api/api.posts';
+import { getHomePosts } from '@/api/api.posts';
+import { Link } from 'react-router-dom';
 import img from '@/assets/mainitem.png';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
 import {
   StCard,
   StCardImg,
@@ -16,6 +16,8 @@ import {
   StNoCard,
   StPlace,
   StPostItem,
+  StMoreButton,
+  StButtonBox,
   StSlideSection,
   StTitle
 } from './Home.styled';
@@ -23,15 +25,6 @@ import {
 const ITEMS_PER_PAGE = 3;
 
 export const Home = () => {
-  // const {
-  //   data: posts,
-  //   isPending,
-  //   isError
-  // } = useQuery({
-  //   queryKey: ['posts'],
-  //   queryFn: getPosts
-  // });
-
   const {
     data: posts,
     fetchNextPage,
@@ -42,10 +35,8 @@ export const Home = () => {
   } = useInfiniteQuery({
     queryKey: ['posts'],
     initialPageParam: 1,
-    // 되는거
-    // queryFn: ({ pageParam }) => getPosts(pageParam, ITEMS_PER_PAGE),
     queryFn: async ({ pageParam }) => {
-      const response = await getPosts(pageParam, ITEMS_PER_PAGE);
+      const response = await getHomePosts(pageParam, ITEMS_PER_PAGE);
       return {
         posts: response.posts,
         totalPages: Math.ceil(response.postsLength / ITEMS_PER_PAGE)
@@ -60,9 +51,8 @@ export const Home = () => {
     }
   });
 
-  console.log(posts);
-
-  if (isPending) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (isPending || !posts.length) return <div>Loading...</div>;
 
   return (
     <StDiv>
@@ -98,9 +88,11 @@ export const Home = () => {
               <StNoCard>작성된 게시물이 없습니다.</StNoCard>
             )}
             {hasNextPage && (
-              <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-                더 불러오기
-              </button>
+              <StButtonBox>
+                <StMoreButton onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                  더 불러오기
+                </StMoreButton>
+              </StButtonBox>
             )}
           </StCardsCotainer>
         </StCardsSection>
