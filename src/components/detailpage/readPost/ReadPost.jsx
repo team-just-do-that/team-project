@@ -88,13 +88,15 @@ const ReadPost = ({ setIsEdit, userInfo }) => {
 
           <p>{address}</p>
         </StTitleSection>
+
+        <StHr />
+
         <StSubSection>
           <StButtonDiv $postEditAuthority={user_id === userInfo?.id}>
             <button onClick={() => setIsEdit(true)}>수정</button>
             <button onClick={() => deletePostHandler(postId)}>삭제</button>
           </StButtonDiv>
         </StSubSection>
-        <StHr />
         <StContentSection>
           <StImaDiv>{image_url && <StPostImage src={image_url} alt="image" />}</StImaDiv>
 
