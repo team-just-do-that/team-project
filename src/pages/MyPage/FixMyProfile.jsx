@@ -37,17 +37,6 @@ function FixMyProfile() {
   const [profileFavorite, setProfileFavorite] = useState('');
   const [previewUrl, setPreviewUrl] = useState('');
 
-  // const onFileChange = (e) => {
-  //   const file = imgRef.current.files[0];
-  //   setImageFile(file);
-
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = () => {
-  //     setImageUrl(reader.result);
-  //   };
-  // };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -103,6 +92,10 @@ function FixMyProfile() {
     const response = await updateProfileWithSupabase(updatingObj, user.id);
 
     queryClient.invalidateQueries(['user']);
+
+    alert('프로필 변경이 성공적으로 완료되었습니다!');
+
+    navigate('/my-page');
   };
 
   const handleBackClick = () => {

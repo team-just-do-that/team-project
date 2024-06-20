@@ -46,8 +46,6 @@ const MyPage = () => {
 
   if (isPending) return <div>Loading...</div>;
 
-  console.log(user.image_url);
-
   return (
     <StSection>
       <StProfile>
