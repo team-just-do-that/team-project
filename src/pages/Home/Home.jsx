@@ -33,7 +33,7 @@ export const Home = () => {
     isPending,
     error
   } = useInfiniteQuery({
-    queryKey: ['posts'],
+    queryKey: ['infinitePosts'],
     initialPageParam: 1,
     queryFn: async ({ pageParam }) => {
       const response = await getHomePosts(pageParam, ITEMS_PER_PAGE);
