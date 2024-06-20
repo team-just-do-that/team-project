@@ -1,22 +1,22 @@
 import { getPosts } from '@/api/api.posts';
+import img from '@/assets/mainitem.png';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import img from '@/assets/mainitem.png';
 import {
-  StDiv,
-  StHomeSection,
-  StSlideSection,
-  StCardsSection,
-  StCardsCotainer,
-  StCardsAlignBtn,
-  StCards,
   StCard,
   StCardImg,
-  StTitle,
-  StPlace,
+  StCards,
+  StCardsAlignBtn,
+  StCardsCotainer,
+  StCardsSection,
   StContent,
   StContentNoImg,
-  StPostItem
+  StDiv,
+  StHomeSection,
+  StPlace,
+  StPostItem,
+  StSlideSection,
+  StTitle
 } from './Home.styled';
 
 export const Home = () => {
