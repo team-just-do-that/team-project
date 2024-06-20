@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   StButton,
   StCard,
@@ -9,17 +9,18 @@ import {
   StPlace,
   StPostItem,
   StTitle,
-  StyledProfile,
-  StyledProfileBox,
-  StyledProfileGame,
-  StyledProfileIntro,
-  StyledProfileName,
-  StyledProfilePic,
-  StyledSection
+  StProfile,
+  StProfileBox,
+  StProfileGame,
+  StProfileIntro,
+  StProfileName,
+  StProfilePic,
+  StSection
 } from './MyPage.styled';
 import Button from './Button';
 import { useQuery } from '@tanstack/react-query';
 import { getUser } from '@/api/api.auth';
+import { getPosts } from '@/api/api.posts';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -37,46 +38,49 @@ const MyPage = () => {
     queryFn: getUser
   });
 
-  console.log(user);
+  const { data: posts } = useQuery({
+    queryKey: ['posts'],
+    queryFn: getPosts
+  });
 
   if (isPending) return <div>Loading...</div>;
 
   return (
-    <StyledSection>
-      <StyledProfile>
-        <StyledProfilePic src={user.image_url} alt="" />
-        <StyledProfileBox>
-          <StyledProfileName>{user.nickname}</StyledProfileName>
-          <StyledProfileIntro>
+    <StSection>
+      <StProfile>
+        <StProfilePic src={user.image_url} alt="" />
+        <StProfileBox>
+          <StProfileName>{user.nickname}</StProfileName>
+          <StProfileIntro>
             <span>좋아하는 게임 </span>
-            <StyledProfileGame>{user.favorite}</StyledProfileGame>
-          </StyledProfileIntro>
-        </StyledProfileBox>
+            <StProfileGame>{user.favorite}</StProfileGame>
+          </StProfileIntro>
+        </StProfileBox>
         <StButton>
           <Button type="button" buttonText="프로필 수정" onClick={onClickProfile} color="#2D2D2D"></Button>
         </StButton>
-      </StyledProfile>
+      </StProfile>
       <StCardsCotainer>
         <StCards>
-          <StCard>
-            <>
-              <StCardImg />
-              <StTitle>제목</StTitle>
-              <StPlace>장소</StPlace>
-            </>
-            <StPostItem>모집중</StPostItem>
-          </StCard>
-          <StCard>
-            <StTitle>제목</StTitle>
-            <StPlace>장소</StPlace>
-            <StPostItem>모집중</StPostItem>
-          </StCard>
-          <StCard>카드~</StCard>
-          <StCard>카드~</StCard>
+          {posts && posts.length ? (
+            posts
+              .filter((post) => {
+                return post.user_id === user.id;
+              })
+              .map((post) => {
+                return (
+                  <Link style={{ textDecoration: 'none' }} key={post.id} to={`/detail/${post.id}`}>
+                    {post.title}
+                  </Link>
+                );
+              })
+          ) : (
+            <div>안녕</div>
+          )}
         </StCards>
       </StCardsCotainer>
       {/* StCardsCotainerd 섹션 자체를 솔님께서 수정하신 버전으로 업데이트 해야 함 일단 넣어두기만 함 */}
-    </StyledSection>
+    </StSection>
   );
 };
 

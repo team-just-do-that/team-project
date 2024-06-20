@@ -6,12 +6,13 @@ import { getSessionWithSupabase } from '@/api/api.auth';
 
 import { signOutWithSupabase } from '@/api/api.auth';
 import { useSelector } from 'react-redux';
+import supabase from '@/supabase/supabaseClient';
 
 function Layout() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const checkLoginStatus = async () => {
-    const user = supabase.auth.user();
+    const user = supabase.auth.getUser();
     console.log(user);
     setIsLoggedIn(true);
   };
