@@ -11,6 +11,7 @@ import {
   StCardsCotainer,
   StContent,
   StContentNoImg,
+  StNoCard,
   StPlace,
   StPostItem,
   StProfile,
@@ -88,7 +89,7 @@ const MyPage = () => {
                 );
               })
           ) : (
-            <div>안녕</div>
+            <StNoCard>작성된 게시물이 없습니다.</StNoCard>
           )}
         </StCards>
       </StCardsCotainer>

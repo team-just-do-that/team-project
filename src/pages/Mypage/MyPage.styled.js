@@ -187,6 +187,10 @@ const StPostItem = styled.div`
   border-radius: 0.5rem;
 `;
 
+const StNoCard = styled.div`
+  text-align: center;
+`;
+
 export {
   StPostItem,
   StContentNoImg,
@@ -208,5 +212,6 @@ export {
   StProfileBox,
   StProfilePic,
   StProfile,
-  StSection
+  StSection,
+  StNoCard
 };
