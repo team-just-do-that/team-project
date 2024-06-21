@@ -24,7 +24,7 @@ function Layout() {
       try {
         await signOutWithSupabase();
         setIsLoggedIn(false);
-        navigate('/');
+        window.location.replace('/');
       } catch (error) {
         console.error('Error logging out:', error.message);
       }
