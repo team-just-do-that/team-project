@@ -21,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <Home />
+      },
+      {
+        path: 'detail/:id',
+        element: <Detail />
       }
     ]
   },
@@ -35,10 +39,6 @@ export const router = createBrowserRouter([
       {
         path: 'my-page',
         element: <MyPage />
-      },
-      {
-        path: 'detail/:id',
-        element: <Detail />
       },
       {
         path: 'fix-my-profile',

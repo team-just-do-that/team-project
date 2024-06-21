@@ -47,7 +47,7 @@ export const Home = () => {
       };
     },
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      console.log(lastPage, allPages, lastPageParam);
+      // console.log(lastPage, allPages, lastPageParam);
       if (lastPage.length === 0) {
         return undefined;
       }

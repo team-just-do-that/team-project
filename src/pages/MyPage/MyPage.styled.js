@@ -119,6 +119,7 @@ const StCards = styled.ul`
 `;
 
 const StCard = styled.li`
+  line-height: 1.5;
   background-color: #fcfdff;
   width: 320px;
   height: 323px;
