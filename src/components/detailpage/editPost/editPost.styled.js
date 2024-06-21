@@ -114,3 +114,26 @@ export const StNowAddressDiv = styled.div`
     font-weight: bold;
   }
 `;
+
+export const StLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  background-color: #2d2d2d;
+  color: white;
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  font-weight: bold;
+  align-items: center;
+  border: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+`;
+
+export const StInput = styled.input`
+  display: none;
+  width: 100%;
+`;

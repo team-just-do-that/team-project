@@ -26,6 +26,7 @@ const StProfilePic = styled.img`
   margin: auto 0 auto 80px;
   border-radius: 50%;
   background-color: #f0f0f0;
+  object-fit: cover;
 `;
 
 const StProfileBox = styled.div`
@@ -118,6 +119,7 @@ const StCards = styled.ul`
 `;
 
 const StCard = styled.li`
+  line-height: 1.5;
   background-color: #fcfdff;
   width: 320px;
   height: 323px;
@@ -240,6 +242,7 @@ export const StUserProfileImage = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 16px;
+  object-fit: cover;
 `;
 
 export const StUsername = styled.p``;

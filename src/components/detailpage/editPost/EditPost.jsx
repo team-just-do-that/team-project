@@ -1,4 +1,4 @@
-import { getPost, updatePost } from '@/api/api.posts';
+import { addImage, getPost, updatePost } from '@/api/api.posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -12,7 +12,9 @@ import {
   StInputDiv,
   StNowAddressDiv,
   StRecruitDiv,
-  StTextAreaDiv
+  StTextAreaDiv,
+  StLabel,
+  StInput
 } from './editPost.styled';
 
 const EditPost = ({ setIsEdit }) => {
@@ -27,9 +29,17 @@ const EditPost = ({ setIsEdit }) => {
 
   const [newTitle, setNewTitle] = useState(title);
   const [newContent, setNewContent] = useState(content);
+  const [newImage, setNewImage] = useState(image_url);
 
   const queryClient = useQueryClient();
   const { id: postId } = useParams();
+
+  const updateImageHandler = async (e) => {
+    e.preventDefault();
+    const fileObj = e.target.files[0];
+    const data = await addImage(fileObj);
+    setNewImage(`https://hiovftevpmlwqfamjnpe.supabase.co/storage/v1/object/public/post_images/${data.path}`);
+  };
 
   //게시글 수정
   const updatePostMutation = useMutation({
@@ -49,6 +59,7 @@ const EditPost = ({ setIsEdit }) => {
       alert('제목과 내용을 전부 입력하세요.');
       return;
     }
+    console.log(newTitle);
     updatePostMutation.mutate({
       created_at,
       is_recruit: recruit,
@@ -57,7 +68,7 @@ const EditPost = ({ setIsEdit }) => {
       content: newContent,
       id,
       user_id,
-      image_url,
+      image_url: newImage,
       coordinate: {
         lat: localStorage.getItem('y'),
         lng: localStorage.getItem('x')
@@ -93,7 +104,9 @@ const EditPost = ({ setIsEdit }) => {
       </StInputDiv>
 
       <StContentSection>
-        {targetData.image_url ? <StPostImage src={image_url} alt="image" /> : null}
+        {targetData.image_url ? <StPostImage src={newImage} alt="image" /> : null}
+        <StLabel htmlFor="image">이미지 수정하기</StLabel>
+        <StInput type="file" id="image" onChange={updateImageHandler} />
         <StTextAreaDiv>
           <label>내용</label>
           <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />

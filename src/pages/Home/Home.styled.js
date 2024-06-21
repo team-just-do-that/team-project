@@ -52,6 +52,7 @@ export const StNoCard = styled.div`
 `;
 
 export const StCard = styled.li`
+  line-height: 1.5;
   background-color: #fcfdff;
   width: 320px;
   height: 323px;
@@ -159,6 +160,7 @@ export const StUserProfileImage = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 16px;
+  object-fit: cover;
 `;
 
 export const StUsername = styled.p``;

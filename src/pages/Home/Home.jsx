@@ -60,7 +60,7 @@ export const Home = () => {
   });
 
   if (error) return <div>{error}</div>;
-  if (isPending || !posts.length) return <div>Loading...</div>;
+  // if (isPending || !posts.length) return <div>Loading...</div>;
 
   return (
     <StDiv>
