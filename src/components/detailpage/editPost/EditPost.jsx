@@ -21,6 +21,7 @@ const EditPost = ({ setIsEdit }) => {
     queryKey: ['post'],
     queryFn: () => getPost(postId)
   });
+  console.log(targetData);
   const { content, image_url, is_recruit, title } = targetData;
 
   const [recruit, setRecruit] = useState(is_recruit);
@@ -47,6 +48,7 @@ const EditPost = ({ setIsEdit }) => {
       alert('제목과 내용을 전부 입력하세요.');
       return;
     }
+    console.log(newTitle);
     updatePostMutation.mutate({
       ...targetData,
       is_recruit: recruit,
@@ -92,8 +94,8 @@ const EditPost = ({ setIsEdit }) => {
 
       <StContentSection>
         {targetData.image_url ? <StPostImage src={image_url} alt="image" /> : null}
-        <StLabel htmlFor="image">이미지 수정하기</StLabel>
-        <StInput type="file" id="image" />
+        {/* <StLabel htmlFor="image">이미지 수정하기</StLabel>
+        <StInput type="file" id="image" /> */}
         <StTextAreaDiv>
           <label>내용</label>
           <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} />
