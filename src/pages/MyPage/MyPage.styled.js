@@ -1,6 +1,76 @@
 import styled from 'styled-components';
 
-export const StHomeSection = styled.section`
+const StSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  align-items: center;
+`;
+
+const StProfile = styled.div`
+  width: 920px;
+  height: 240px;
+  padding: 16px;
+  margin-top: 60px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: #fcfdff;
+  display: flex;
+`;
+
+const StProfilePic = styled.img`
+  height: 170px;
+  width: 170px;
+  margin: auto 0 auto 80px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  object-fit: cover;
+`;
+
+const StProfileBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: auto 0 auto 30px;
+`;
+
+const StProfileName = styled.p`
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 45px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+`;
+
+const StProfileIntro = styled.span`
+  font-size: 20px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+`;
+
+const StProfileGame = styled.span`
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-left: 5px;
+  background-color: #2d2d2d;
+  color: #fcfdff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+`;
+
+const StButton = styled.div`
+  margin: 0 0 auto auto;
+  cursor: pointer;
+`;
+
+const StHomeSection = styled.section`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -8,26 +78,27 @@ export const StHomeSection = styled.section`
   overflow-y: auto;
 `;
 
-export const StSlideSection = styled.section`
+const StSlideSection = styled.section`
   height: 700px;
   background-color: #f4b061;
   display: flex;
   justify-content: center;
 `;
 
-export const StCardsSection = styled.section`
+const StCardsSection = styled.section`
   min-height: 300px;
   display: flex;
   justify-content: center;
 `;
 
-export const StCardsCotainer = styled.div`
+const StCardsCotainer = styled.div`
+  display: flex;
   min-width: 1000px;
   margin-bottom: 10px;
   /* background-color: gray; */
 `;
 
-export const StCardsAlignBtn = styled.button`
+const StCardsAlignBtn = styled.button`
   margin-top: 2rem;
   margin-bottom: 2rem;
   width: 10rem;
@@ -38,7 +109,7 @@ export const StCardsAlignBtn = styled.button`
   font-weight: 700;
 `;
 
-export const StCards = styled.ul`
+const StCards = styled.ul`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 320px));
@@ -47,11 +118,7 @@ export const StCards = styled.ul`
   row-gap: 60px;
 `;
 
-export const StNoCard = styled.div`
-  text-align: center;
-`;
-
-export const StCard = styled.li`
+const StCard = styled.li`
   line-height: 1.5;
   background-color: #fcfdff;
   width: 320px;
@@ -67,7 +134,7 @@ export const StCard = styled.li`
   color: #000;
 `;
 
-export const StCardImg = styled.img`
+const StCardImg = styled.img`
   background-color: black;
   width: 100%;
   height: 160px;
@@ -75,7 +142,7 @@ export const StCardImg = styled.img`
   object-fit: cover;
 `;
 
-export const StTitle = styled.p`
+const StTitle = styled.p`
   font-size: 18px;
   font-weight: 900;
   text-overflow: ellipsis;
@@ -86,12 +153,12 @@ export const StTitle = styled.p`
   -webkit-box-orient: vertical;
 `;
 
-export const StPlace = styled.p`
+const StPlace = styled.p`
   font-size: 14px;
   font-weight: 900;
 `;
 
-export const StContent = styled.p`
+const StContent = styled.p`
   line-height: 1.5;
   font-size: 14px;
   text-overflow: ellipsis;
@@ -102,7 +169,7 @@ export const StContent = styled.p`
   -webkit-box-orient: vertical;
 `;
 
-export const StContentNoImg = styled.p`
+const StContentNoImg = styled.p`
   line-height: 1.5;
   font-size: 14px;
   text-overflow: ellipsis;
@@ -113,7 +180,7 @@ export const StContentNoImg = styled.p`
   -webkit-box-orient: vertical;
 `;
 
-export const StPostItem = styled.div`
+const StPostItem = styled.div`
   background-color: #2d2d2d;
   color: #fcfdff;
   display: flex;
@@ -125,24 +192,39 @@ export const StPostItem = styled.div`
   border-radius: 0.5rem;
 `;
 
-export const StMoreButton = styled.button`
-  width: 200px;
-  height: 80px;
-  border-radius: 20px;
-  border: none;
-  background-color: #2d2d2d;
-  color: #fcfdff;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-`;
-export const StButtonBox = styled.div`
-  margin: 50px auto;
-  width: 100%;
+const StNoCard = styled.div`
   text-align: center;
 `;
 
-export const StDiv = styled.div``;
+const StMyPost = styled.div`
+  font-size: 18px;
+  font-weight: 900;
+  margin: 50px;
+`;
+export {
+  StButton,
+  StCard,
+  StCardImg,
+  StCards,
+  StCardsAlignBtn,
+  StCardsCotainer,
+  StCardsSection,
+  StContent,
+  StContentNoImg,
+  StHomeSection,
+  StMyPost,
+  StNoCard,
+  StPlace,
+  StPostItem,
+  StProfile,
+  StProfileBox,
+  StProfileGame,
+  StProfileIntro,
+  StProfileName,
+  StProfilePic,
+  StSection,
+  StTitle
+};
 
 export const StCardFooter = styled.div`
   display: flex;
