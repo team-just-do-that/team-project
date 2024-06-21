@@ -77,10 +77,10 @@ function FixMyProfile() {
     }
 
     if (profileImage !== user.image_url) {
-      const existFileName = user.image_url.split('avatars/')[1];
-      console.log(existFileName);
-      const { data, error } = await supabase.storage.from('avatars').remove([existFileName]);
-      console.log(data, error);
+      // const existFileName = user.image_url.split('avatars/')[1];
+      // console.log(existFileName);
+      // const { data, error } = await supabase.storage.from('avatars').remove([existFileName]);
+      // console.log(data, error);
 
       const response = await supabase.storage.from('avatars').upload(fileUrl, profileImage, { upsert: true });
       const publicUrl = supabase.storage.from('avatars').getPublicUrl(fileUrl); //superbase에서 받아온 이미지url
